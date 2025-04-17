@@ -11,7 +11,7 @@ import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 # https://github.com/akcarsten/Non_Negative_Matrix_Factorization <- adapted from 
-def nmf(V, n_components, max_iter=1000, tol=1e-5, seed = 1):
+def nmf(V, n_components, max_iter=1000, tol=1e-4, seed = 1):
     def update_H(W, H, V):
         numerator = W.T @ V
         denominator = (W.T @ W @ H) + 1e-10
