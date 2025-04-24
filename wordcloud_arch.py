@@ -1,5 +1,5 @@
 import pandas as pd
-from wordcloud import WordCloud
+from wordcloud_arch import WordCloud
 import matplotlib.pyplot as plt
 
 # Load the CSV file
