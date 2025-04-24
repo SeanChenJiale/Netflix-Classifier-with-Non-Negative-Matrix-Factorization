@@ -2,11 +2,11 @@
 import pandas as pd
 import numpy as np
 # document_index_to_show = 0
-document_title_to_show = "Stranger Things"
+document_title_to_show = "The 100"
 # # Load the W matrix from the saved file
 # W = np.loadtxt(f"{dir_to_save}/W_matrix.csv", delimiter=",")
 
-W_csv_path = "./output/als_l2_5tps/W_matrix.csv"
+W_csv_path = "./output/als_l2_6tps/W_matrix.csv"
 npr = pd.read_csv("./data/netflix_titles.csv")
 
 document_index_to_show = npr[npr['title'] == document_title_to_show].index[0]

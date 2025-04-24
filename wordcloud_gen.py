@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 # Load the CSV file
 loss_fn_list = ['als','mu']
-topic_count_list = [3,4,5]
+topic_count_list = [6,7]
 l1_or_l2_list = ['l2']
 for l1_or_l2 in l1_or_l2_list:
     for topic_count in topic_count_list:

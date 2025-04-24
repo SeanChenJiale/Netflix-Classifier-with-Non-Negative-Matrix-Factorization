@@ -140,7 +140,7 @@ if __name__ == "__main__":
         )
         dtm = tfidf.fit_transform(npr['description'])
         print(dtm)
-        number_of_topics_list = [3,4,5]
+        number_of_topics_list = [6,7]
         optimization_type_list = ['als','mu']
         run_folder = 'rand_init'
         optim_loss = 'l2'
