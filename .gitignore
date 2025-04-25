@@ -1,2 +1,3 @@
 ./data/filtered_one_hot_encoded.csv
 ./utils/__pycache__
+./__pycache__
