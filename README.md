@@ -34,7 +34,19 @@ Install the required libraries using:
 pip install numpy pandas scikit-learn scipy
 ```
 
-# Word Cloud Generator for Netflix Topics
+or
+
+## Installation
+
+To set up the project, simply install the required dependencies using the provided `requirements.txt` file.
+
+### Steps:
+
+1. **Install Dependencies**:
+   Run the following command in your terminal:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
 This script, `wordcloud_gen.py`, generates word clouds for topics extracted from the Netflix dataset using Non-Negative Matrix Factorization (NMF). Each word cloud visually represents the importance of words in a topic based on their weights.
 
