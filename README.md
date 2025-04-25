@@ -32,9 +32,21 @@ This project implements a custom Non-Negative Matrix Factorization (NMF) algorit
 Install the required libraries using:
 ```bash
 pip install numpy pandas scikit-learn scipy
+```
 
+or
 
-# Word Cloud Generator for Netflix Topics
+## Installation
+
+To set up the project, simply install the required dependencies using the provided `requirements.txt` file.
+
+### Steps:
+
+1. **Install Dependencies**:
+   Run the following command in your terminal:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
 This script, `wordcloud_gen.py`, generates word clouds for topics extracted from the Netflix dataset using Non-Negative Matrix Factorization (NMF). Each word cloud visually represents the importance of words in a topic based on their weights.
 
@@ -61,7 +73,7 @@ This script, `wordcloud_gen.py`, generates word clouds for topics extracted from
 Install the required libraries using:
 ```bash
 pip install pandas wordcloud matplotlib]
-
+```
 # Movie Recommender with Non-Negative Matrix Factorization (NMF)
 
 The `movie_reccomender.py` script recommends movies based on their similarity to a target movie using Non-Negative Matrix Factorization (NMF). It filters recommendations by rating, type, and categories to ensure relevance.
@@ -91,3 +103,4 @@ The `movie_reccomender.py` script recommends movies based on their similarity to
 Install the required libraries using:
 ```bash
 pip install numpy pandas scikit-learn
+```
