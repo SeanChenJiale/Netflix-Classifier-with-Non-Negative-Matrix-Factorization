@@ -2,6 +2,7 @@
 
 ## File Structure
 
+```plaintext
 Netflix-Classifier-with-Non-Negative-Matrix-Factorization/
 │
 ├── data/
@@ -34,7 +35,7 @@ Netflix-Classifier-with-Non-Negative-Matrix-Factorization/
 ├── error_plotter.py              # Error plotting script
 ├── original_scikit.py            # Basic scikit-learn NMF example
 └── requirements.txt              # Required dependencies
-
+```
 ## Scripts Overview
 
 1. **`main.py`**:
