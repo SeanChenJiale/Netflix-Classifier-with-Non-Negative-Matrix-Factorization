@@ -1,62 +1,93 @@
-# Optim_proj
+# Netflix Classifier with Non-Negative Matrix Factorization (NMF)
 
-This project is designed to process text data using TF-IDF and NMF (Non-negative Matrix Factorization) to extract topics from a dataset. The main goal is to identify and analyze the most significant words associated with each topic.
+This project implements a custom Non-Negative Matrix Factorization (NMF) algorithm to analyze and classify Netflix titles based on their descriptions. The `main.py` script preprocesses the data, applies NMF, and outputs topic models and associated matrices.
 
-## Files in the Project
+## Features
 
-### `optim.py`
-This script contains the main logic for processing text data. It performs the following tasks:
-- Reads a CSV file containing text data (e.g., movie descriptions).
-- Applies TF-IDF vectorization to convert the text data into a numerical format.
-- Fits an NMF model to the TF-IDF matrix to extract topics.
-- Prints the top words and their corresponding weights for each identified topic.
+- **Custom NMF Implementation**:
+  - Supports two optimization methods: Multiplicative Updates (`mu`) and Alternating Least Squares (`als`).
+  - Supports two loss functions: L1 and L2 norms.
+  - Initialization options: Random initialization or NNDSVD.
 
-### `generate_topics_csv.py`
-This script is intended to generate a CSV file that contains the top words and their corresponding weights for each topic. The output CSV will have column names formatted as "topic1 weights1", "topic2 weights2", ..., "topicK weightsK".
+- **Data Preprocessing**:
+  - Uses TF-IDF vectorization to transform Netflix title descriptions into a document-term matrix.
 
-## Setup Instructions
+- **Topic Modeling**:
+  - Extracts topics and their associated words from the Netflix dataset.
+  - Saves the topics, weights, and NMF matrices (`W` and `H`) to CSV files.
 
-1. Ensure you have Python installed on your machine.
-2. Install the required libraries by running:
-   ```
-   pip install pandas scikit-learn
-   pip install wordcloud
-   pip install matplotlib
-   ```
-3. Place your CSV file (e.g., `netflix_titles.csv`) in the project directory or update the file path in `optim.py` accordingly.
+- **Error Tracking**:
+  - Tracks reconstruction error during NMF iterations.
+  - Stops early if the error increases for 10 consecutive iterations or falls below a tolerance threshold.
 
-## Usage
+## Requirements
 
-1. Run `optim.py` to process the text data and view the top words for each topic:
-   ```
-   python optim.py
-   ```
-2. Run `generate_topics_csv.py` to create a CSV file with the top words and weights for each topic:
-   ```
-   python generate_topics_csv.py
-   ```
+- Python 3.x
+- Required libraries:
+  - `numpy`
+  - `pandas`
+  - `scikit-learn`
+  - `scipy`
 
-Example of 5 catagories
-school life
-
-![topic: school life](topic0.png)
-
-family
-
-![topic: family](topic1.png)
-
-war documentaries
-
-![topic: war documentaries](topic2.png)
-
-romance
-
-![topic: romance](topic3.png)
-
-adventure/ new york
-
-![topic: adventure/ new york](topic4.png)
+Install the required libraries using:
+```bash
+pip install numpy pandas scikit-learn scipy
 
 
-## License
-This project is licensed under the MIT License.
+# Word Cloud Generator for Netflix Topics
+
+This script, `wordcloud_gen.py`, generates word clouds for topics extracted from the Netflix dataset using Non-Negative Matrix Factorization (NMF). Each word cloud visually represents the importance of words in a topic based on their weights.
+
+## Features
+
+- **Dynamic Word Cloud Generation**:
+  - Generates word clouds for topics based on their word frequencies.
+  - Supports multiple configurations of loss functions, topic counts, and optimization methods.
+
+- **Customizable Font**:
+  - Allows specifying a custom font for the word cloud.
+
+- **Output as Images**:
+  - Saves each word cloud as a `.png` image in the corresponding output directory.
+
+## Requirements
+
+- Python 3.x
+- Required libraries:
+  - `pandas`
+  - `wordcloud`
+  - `matplotlib`
+
+Install the required libraries using:
+```bash
+pip install pandas wordcloud matplotlib]
+
+# Movie Recommender with Non-Negative Matrix Factorization (NMF)
+
+The `movie_reccomender.py` script recommends movies based on their similarity to a target movie using Non-Negative Matrix Factorization (NMF). It filters recommendations by rating, type, and categories to ensure relevance.
+
+## Features
+
+- **Movie Similarity Calculation**:
+  - Uses cosine similarity to find movies similar to the target movie based on the NMF `W` matrix.
+
+- **Filtering Criteria**:
+  - Filters recommendations by:
+    - Same rating as the target movie.
+    - Same type (e.g., "Movie" or "TV Show").
+    - At least one matching category from the `listed_in` column.
+
+- **Customizable Target Movie**:
+  - Allows specifying a target movie by its title.
+
+## Requirements
+
+- Python 3.x
+- Required libraries:
+  - `numpy`
+  - `pandas`
+  - `scikit-learn`
+
+Install the required libraries using:
+```bash
+pip install numpy pandas scikit-learn
