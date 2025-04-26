@@ -140,24 +140,23 @@ if __name__ == "__main__":
         )
         dtm = tfidf.fit_transform(npr['description'])
         print(dtm)
-        number_of_topics_list = [6,7]
+        number_of_topics_list = [6]
         optimization_type_list = ['als','mu']
-        run_folder = 'rand_init'
         optim_loss = 'l2'
-        init='nndsvd'
+        init='random_init'
         # Apply custom NMF
         for number_of_topics in number_of_topics_list:
             for optimization_type in optimization_type_list:
                 W, H ,error_list= custom_nmf(dtm,
                                 normalize=False,
-                                init="nndsvd",
+                                init=init,
                                 optimization_type=optimization_type,
                                 optim_loss = 'l2',
                                 n_components=number_of_topics,
                                 max_iter=1000,
                                 tol=1e-4, 
                                 seed=2)
-                dir_to_save = f'./output/{optimization_type}_{optim_loss}_{number_of_topics}tps' #[0.052 0.35  0.598]
+                dir_to_save = f'./output/{init}_{optimization_type}_{optim_loss}_{number_of_topics}tps' #[0.052 0.35  0.598]
                 #[0.636 0.054 0.31 ]
                 # Display topics with weights (matches scikit-learn's format)
                 os.makedirs(dir_to_save, exist_ok=True)
