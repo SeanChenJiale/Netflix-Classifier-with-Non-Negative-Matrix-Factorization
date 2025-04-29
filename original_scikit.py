@@ -20,7 +20,7 @@ nmf_model = NMF(n_components= 3) ## model classifies it into differnt components
 W = nmf_model.fit_transform(dtm)
 H = nmf_model.components_
 
-# print(nmf_model.reconstruction_err_)
+print(nmf_model.reconstruction_err_)
 
 # Viewing top 15 words in each topic
 for index, topic in enumerate(nmf_model.components_):

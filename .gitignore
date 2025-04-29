@@ -1,3 +1,4 @@
 ./data/filtered_one_hot_encoded.csv
 ./utils/__pycache__
 ./papers
+./__pycache__
