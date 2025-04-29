@@ -16,7 +16,7 @@ def random_init(V,n_components,seed=1):
     H = np.abs(np.random.rand(n_components, n))
     return W,H
 
-def custom_nmf(V,n_components,optimization_type = 'als', optim_loss = 'l2', init = "random_init", max_iter=1000, tol=1e-4, seed=1
+def custom_nmf(V,n_components,optimizer = 'als', optim_loss = 'l2', init = "random_init", max_iter=1000, tol=1e-4, seed=1
                ,normalize=True,norm_type='l1'): #normalize, norm_type are unused args now.
     """
     Custom NMF implementation using multiplicative update rules.
@@ -79,10 +79,10 @@ def custom_nmf(V,n_components,optimization_type = 'als', optim_loss = 'l2', init
     error_list = []
     consecutive_increases = 0
     for i in range(max_iter):
-        if optimization_type == 'mu':  # Multiplicative Updates
+        if optimizer == 'mu':  # Multiplicative Updates
             H = update_H_mu(W, H, V)
             W = update_W_mu(W, H, V)
-        elif optimization_type == 'als':  # Alternating Least Squares
+        elif optimizer == 'als':  # Alternating Least Squares
             W = update_W_als(W, H, V)
             H = update_H_als(W, H, V)
         else:
@@ -141,60 +141,60 @@ if __name__ == "__main__":
         dtm = tfidf.fit_transform(npr['description'])
         import time
 
-        number_of_topics_list = [3]
-        loss_function_list = ['mu']
-        run_folder = 'rand_init'
-        error_type = 'l1'
-        init='nndsvd'
+        number_of_topics_list = [3,4,5,6,7]
+        optimizer_list = ['mu','als']
+        error_type = 'l2'
+        init_list=['nndsvd','random_init']
         # Apply custom NMF
            
         for number_of_topics in number_of_topics_list:
-            for loss_function in loss_function_list:
-                start_time = time.time() 
-                W, H = custom_nmf(dtm,
-                                normalize=True,
-                                init="nndsvd",
-                                loss_function=loss_function,
-                                norm_type=error_type,
-                                n_components=number_of_topics,
-                                max_iter=1000,
-                                tol=1e-4, 
-                                seed=1)
-                total_runtime = time.time() - start_time
-                print("--- %s seconds ---" % (total_runtime))
+            for optimizer in optimizer_list:
+                for init in init_list:
+                    start_time = time.time() 
+                    W, H ,error_list= custom_nmf(dtm,
+                                    normalize=True,
+                                    init=init,
+                                    optimizer=optimizer,
+                                    norm_type=error_type,
+                                    n_components=number_of_topics,
+                                    max_iter=1000,
+                                    tol=1e-4, 
+                                    seed=1) #for reproducability
+                    total_runtime = time.time() - start_time
+                    print("--- %s seconds ---" % (total_runtime))
 
-                # Save runtime to a text file
-                runtime_file = f'./output/{loss_function}_{error_type}_{number_of_topics}tps/runtime.txt'
-                os.makedirs(os.path.dirname(runtime_file), exist_ok=True)
-                with open(runtime_file, 'w') as f:
-                    f.write(f"Total runtime: {total_runtime:.4f} seconds\n")
-
-
-                dir_to_save = f'./output/{loss_function}_{error_type}_{number_of_topics}tps' #[0.052 0.35  0.598]
-                
-                #[0.636 0.054 0.31 ]
-                # Display topics with weights (matches scikit-learn's format)
-                os.makedirs(dir_to_save, exist_ok=True)
-                df = pd.DataFrame(error_list, columns=['iter','err'])
-                df.to_csv(f'{dir_to_save}/error.csv',index=False)
-                for topic_idx, topic in enumerate(H):
-                    with open(f'{dir_to_save}/topics{topic_idx}.csv', 'w', newline='') as csvfile:
-                        writer = csv.writer(csvfile, delimiter=' ',
-                                    quotechar='|', quoting=csv.QUOTE_MINIMAL)
-                        print(f"\nTopic #{topic_idx}:")
-                        top_indices = topic.argsort()[-15:][::-1]
-                        top_words = tfidf.get_feature_names_out()[top_indices]
-                        top_weights = topic[top_indices]
-                        
-                        for word, weight in zip(top_words, top_weights):
-                            print(f"{word}: {weight:.4f}")
-                            writer.writerow([word, weight])
-                        
+                    # Save runtime to a text file
+                    runtime_file = f'./output/{init}_{optimizer}_{error_type}_{number_of_topics}tps/runtime.txt'
+                    os.makedirs(os.path.dirname(runtime_file), exist_ok=True)
+                    with open(runtime_file, 'w') as f:
+                        f.write(f"Total runtime: {total_runtime:.4f} seconds\n")
 
 
-                # save the W and H matrices to csv files
-                np.savetxt(f"{dir_to_save}/W_matrix.csv", W, delimiter=",")
-                np.savetxt(f"{dir_to_save}/H_matrix.csv", H, delimiter=",")
+                    dir_to_save = f'./output/{init}_{optimizer}_{error_type}_{number_of_topics}tps' #[0.052 0.35  0.598]
+                    
+                    #[0.636 0.054 0.31 ]
+                    # Display topics with weights (matches scikit-learn's format)
+                    os.makedirs(dir_to_save, exist_ok=True)
+                    df = pd.DataFrame(error_list, columns=['iter','err'])
+                    df.to_csv(f'{dir_to_save}/error.csv',index=False)
+                    for topic_idx, topic in enumerate(H):
+                        with open(f'{dir_to_save}/topics{topic_idx}.csv', 'w', newline='') as csvfile:
+                            writer = csv.writer(csvfile, delimiter=' ',
+                                        quotechar='|', quoting=csv.QUOTE_MINIMAL)
+                            print(f"\nTopic #{topic_idx}:")
+                            top_indices = topic.argsort()[-15:][::-1]
+                            top_words = tfidf.get_feature_names_out()[top_indices]
+                            top_weights = topic[top_indices]
+                            
+                            for word, weight in zip(top_words, top_weights):
+                                print(f"{word}: {weight:.4f}")
+                                writer.writerow([word, weight])
+                            
+
+
+                    # save the W and H matrices to csv files
+                    np.savetxt(f"{dir_to_save}/W_matrix.csv", W, delimiter=",")
+                    np.savetxt(f"{dir_to_save}/H_matrix.csv", H, delimiter=",")
     else:
         print("netflix_titles.csv not found")
         exit(1)
