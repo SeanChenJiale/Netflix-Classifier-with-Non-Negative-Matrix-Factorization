@@ -120,15 +120,18 @@ if __name__ == "__main__":
             strip_accents='ascii'
         )
         dtm = tfidf.fit_transform(npr['description'])
-        
-        number_of_topics_list = [4,5]
-        loss_function_list = ['mu','als']
+        import time
+
+        number_of_topics_list = [3]
+        loss_function_list = ['mu']
         run_folder = 'rand_init'
         error_type = 'l1'
         init='nndsvd'
         # Apply custom NMF
+           
         for number_of_topics in number_of_topics_list:
             for loss_function in loss_function_list:
+                start_time = time.time() 
                 W, H = custom_nmf(dtm,
                                 normalize=True,
                                 init="nndsvd",
@@ -138,7 +141,18 @@ if __name__ == "__main__":
                                 max_iter=1000,
                                 tol=1e-4, 
                                 seed=1)
+                total_runtime = time.time() - start_time
+                print("--- %s seconds ---" % (total_runtime))
+
+                # Save runtime to a text file
+                runtime_file = f'./output/{loss_function}_{error_type}_{number_of_topics}tps/runtime.txt'
+                os.makedirs(os.path.dirname(runtime_file), exist_ok=True)
+                with open(runtime_file, 'w') as f:
+                    f.write(f"Total runtime: {total_runtime:.4f} seconds\n")
+
+
                 dir_to_save = f'./output/{loss_function}_{error_type}_{number_of_topics}tps' #[0.052 0.35  0.598]
+                
                 #[0.636 0.054 0.31 ]
                 # Display topics with weights (matches scikit-learn's format)
                 os.makedirs(dir_to_save, exist_ok=True)
